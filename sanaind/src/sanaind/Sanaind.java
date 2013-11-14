@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author piakumpu
@@ -20,32 +22,34 @@ public class Sanaind {
    // public static Scanner lukija = new Scanner(System.in);
     public static ArrayList<String> lauseet = new ArrayList<String>();
     public static ArrayList<String> sanat = new ArrayList<String>();
+    public static TrieNode puu;
     
     public static void lukukone() {
-        File apuri = new File("/home/piakumpu/Dropbox/Public/Yliopisto/HY13-14/tiraharkka/TiraLabra2013syksy/apu.txt");
-        
         try {
+            File apuri = new File("C:\\Users\\Koti\\Dropbox\\Public\\Yliopisto\\HY13-14\\tiraharkka\\TiraLabra2013syksy\\apu.txt");
+            
+            
             Scanner lukija = new Scanner(apuri);
+            
             while (lukija.hasNextLine()) {
                 lauseet.add(lukija.nextLine()); 
                 sanat();
-            }     
+            }
             
-        } 
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        int i =0;
-        
-        while (i < sanat.size()) {
-            System.out.println(sanat.get(i));
-            i=i+1;
-        }
-          i =0;
-        
-        while (i < lauseet.size()) {
-            System.out.println(lauseet.get(i));
-            i=i+1;
+            int i =0;
+            
+            while (i < sanat.size()) {
+                System.out.println(sanat.get(i));
+                i=i+1;
+            }
+            i =0;
+            
+            while (i < lauseet.size()) {
+                System.out.println(lauseet.get(i));
+                i=i+1;
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Sanaind.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -72,68 +76,31 @@ public class Sanaind {
         
         return sana;
     }
-    
-    static TrieNode createTree()
-    {
-        return(new TrieNode('\0', false));
-    }
-   
-    static void insertWord(TrieNode root, String word)
-    {
-        int offset = 97;
-        int l = word.length();
-        char[] letters = word.toCharArray();
-        TrieNode curNode = root;
-       
-        for (int i = 0; i < l; i++)
-        {
-            if (curNode.links[letters[i]-offset] == null)
-                curNode.links[letters[i]-offset] = new TrieNode(letters[i], i == l-1 ? true : false);
-            curNode = curNode.links[letters[i]-offset];
-        }
-    }
-
-    static boolean find(TrieNode root, String word)
-    {
-        char[] letters = word.toCharArray();
-        int l = letters.length;
-        int offset = 97;
-        TrieNode curNode = root;
-       
-        int i;
-        for (i = 0; i < l; i++)
-        {
-            if (curNode == null)
-                return false;
-            curNode = curNode.links[letters[i]-offset];
-        }
-       
-        if (i == l && curNode == null)
-            return false;
-       
-        if (curNode != null && !curNode.fullWord)
-            return false;
-       
-        return true;
-    }
-   
-    static void printTree(TrieNode root, int level, char[] branch)
-    {
-        if (root == null)
-            return;
-       
-        for (int i = 0; i < root.links.length; i++)
-        {
-            branch[level] = root.letter;
-            printTree(root.links[i], level+1, branch);   
-        }
-       
-        if (root.fullWord)
-        {
-            for (int j = 1; j <= level; j++)
-                System.out.print(branch[j]);
-            System.out.println();
-        }
+     
+    public static void etsija() {
+                   
+            Scanner etsija = new Scanner(System.in);
+            String etsittava = etsija.nextLine();
+            int i = 0;
+            while (etsittava != "") {
+                
+                if (sanat.contains(etsittava)==true) {
+                    
+                    while (i < lauseet.size()) {
+                        if (lauseet.get(i).indexOf(etsittava)==-1) {
+                            System.out.println("Löytyi sana: " + etsittava + " riviltä " + (i +1));
+                        }
+                        if (lauseet.get(i).indexOf(etsittava)!=-1) {
+                            //System.out.println("Löytyi sana: " + etsittava + " riviltä " + (i +1));
+                        }                              
+                        i++;
+                }}
+                else {System.out.println("Ei löytynyt sanaa: " + etsittava);}
+               etsittava = etsija.nextLine();
+               i =0;
+                
+            }
+           
     }
    
     
@@ -144,18 +111,23 @@ public class Sanaind {
         System.out.println("Anna tutkittava teksti: ");
         lukukone();
         
-        TrieNode tree = createTree();
+         System.out.println("Anna etsittävä sana: ");
+        etsija();
+        
+        /* Koitetaan ekana saada toimimaan muulla keinoin
+        TrieNode tree = puu.createTree();
          int i=0;  
+         System.err.println("toimii");
         while (i < sanat.size()){
-            insertWord(tree, sanat.get(i));
+            puu.insertWord(tree, sanat.get(i));
             i=i+1;
         }
-       
+       System.err.println("toimii1");
         char[] branch = new char[50];
-        printTree(tree, 0, branch);
-       
+        puu.printTree(tree, 0, branch);
+       System.err.println("toimii2");
         String searchWord = "all";
-        if (find(tree, searchWord))
+        if (puu.find(tree, searchWord))
         {
             System.out.println("The word was found");
         }
@@ -163,24 +135,10 @@ public class Sanaind {
         {
             System.out.println("The word was NOT found");
         }
-    
+    */
         
     }
 }
-    class TrieNode
-{
-    char letter;
-    TrieNode[] links;
-    boolean fullWord;
-    TrieNode() {}
    
-    TrieNode(char letter, boolean fullWord)
-    {
-        this.letter = letter;
-        links = new TrieNode[26];
-        this.fullWord = fullWord;
-    }
-}
-
 
 
