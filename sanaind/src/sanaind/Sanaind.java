@@ -81,18 +81,21 @@ public class Sanaind {
                    
             Scanner etsija = new Scanner(System.in);
             String etsittava = etsija.nextLine();
+            String apulause;
             int i = 0;
             while (etsittava != "") {
                 
                 if (sanat.contains(etsittava)==true) {
                     
                     while (i < lauseet.size()) {
-                        if (lauseet.get(i).indexOf(etsittava)==-1) {
-                            System.out.println("Löytyi sana: " + etsittava + " riviltä " + (i +1));
+                        apulause = trimmeri(lauseet.get(i));
+                        apulause = apulause.toLowerCase();
+
+                       // System.out.println(apulause.indexOf(etsittava));
+                        if (apulause.indexOf(etsittava)!=-1) {
+                           System.out.println("Löytyi sana: " + etsittava + " riviltä " + (i +1));
                         }
-                        if (lauseet.get(i).indexOf(etsittava)!=-1) {
-                            //System.out.println("Löytyi sana: " + etsittava + " riviltä " + (i +1));
-                        }                              
+                                                    
                         i++;
                 }}
                 else {System.out.println("Ei löytynyt sanaa: " + etsittava);}
