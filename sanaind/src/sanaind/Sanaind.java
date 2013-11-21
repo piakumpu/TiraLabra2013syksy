@@ -10,6 +10,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author piakumpu
@@ -33,7 +34,7 @@ public class Sanaind {
             
             while (lukija.hasNextLine()) {
                 lauseet.add(lukija.nextLine()); 
-                sanat();
+                sanatOma();
             }
             
             int i =0;
@@ -53,6 +54,16 @@ public class Sanaind {
         }
     }
     
+    public static void sanatOma() {
+        
+        Tokennizer lause = new Tokennizer(lauseet.get(lauseet.size()-1)," ");
+        while (lause.lisaaTokeneita()) {
+                sanat.add(trimmeri(lause.seuraava()));
+        }
+    
+    }
+    
+    /* JAvan apuja käytetty
     public static void sanat() {
         
         StringTokenizer lause = new StringTokenizer(lauseet.get(lauseet.size()-1)," ");
@@ -60,7 +71,7 @@ public class Sanaind {
                 sanat.add(trimmeri(lause.nextToken()));
         }
     
-    }
+    }*/
     
     public static String trimmeri(String sana) {
            
