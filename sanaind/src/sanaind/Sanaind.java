@@ -23,30 +23,48 @@ public class Sanaind {
    // public static Scanner lukija = new Scanner(System.in);
     public static ArrayList<String> lauseet = new ArrayList<String>();
     public static ArrayList<String> sanat = new ArrayList<String>();
-    public static TrieNode puu;
+    public static Trie puu = new Trie();
+    public static  Scanner lukija = new Scanner(System.in);
+    
+      //root node
+    private Trie r;
+
+
+    public boolean has(String word) {
+        return r.has(word);
+    }
+
+    public void insert(String word) {
+        r.insert(word);
+    }
     
     public static void lukukone() {
         try {
             File apuri = new File("C:\\Users\\Koti\\Dropbox\\Public\\Yliopisto\\HY13-14\\tiraharkka\\TiraLabra2013syksy\\apu.txt");
             
+            lukija = new Scanner(apuri);
             
-            Scanner lukija = new Scanner(apuri);
-            
+           /* Javan kirjastolla tehty
             while (lukija.hasNextLine()) {
                 lauseet.add(lukija.nextLine()); 
+                sanatOma();
+            }*/
+            
+            while (lukija.hasNextLine()) {
+                //lauseet.add(lukija.nextLine()); 
                 sanatOma();
             }
             
             int i =0;
             
             while (i < sanat.size()) {
-                System.out.println(sanat.get(i));
+                //System.out.println(sanat.get(i));
                 i=i+1;
             }
             i =0;
             
             while (i < lauseet.size()) {
-                System.out.println(lauseet.get(i));
+                //System.out.println(lauseet.get(i));
                 i=i+1;
             }
         } catch (FileNotFoundException ex) {
@@ -55,12 +73,18 @@ public class Sanaind {
     }
     
     public static void sanatOma() {
-        
+       /* Javan kirjastolla tehtynä
         Tokennizer lause = new Tokennizer(lauseet.get(lauseet.size()-1)," ");
         while (lause.lisaaTokeneita()) {
                 sanat.add(trimmeri(lause.seuraava()));
-        }
+        }*/
     
+        Tokennizer lause = new Tokennizer(lukija.nextLine()," ");
+        while (lause.lisaaTokeneita()) {
+            //System.out.println(trimmeri(lause.seuraava()));
+             puu.insert(trimmeri(lause.seuraava()));
+        }
+        
     }
     
     /* JAvan apuja käytetty
@@ -94,7 +118,8 @@ public class Sanaind {
             String etsittava = etsija.nextLine();
             String apulause;
             int i = 0;
-            while (etsittava != "") {
+            
+            while (!etsittava.isEmpty()) {
                 
                 if (sanat.contains(etsittava)==true) {
                     
