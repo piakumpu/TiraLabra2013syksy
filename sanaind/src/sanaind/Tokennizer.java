@@ -52,16 +52,18 @@ public class Tokennizer {
 }
 
   public String seuraava() throws NoSuchElementException {
+      
     if (paikka < pituus && delim.indexOf(lause.charAt(paikka)) >= 0)   {
         if (palautettava)  return lause.substring(paikka, ++paikka);
     while (++paikka < pituus && delim.indexOf(lause.charAt(paikka)) >= 0);
     }
-    
     if (paikka < pituus){
         int start = paikka;
         while (++paikka < pituus && delim.indexOf(lause.charAt(paikka)) < 0);
+            
             return lause.substring(start, paikka);
-        }
+    }  
+    
     throw new NoSuchElementException();
 }
 

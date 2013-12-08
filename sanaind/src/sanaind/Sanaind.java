@@ -23,20 +23,13 @@ public class Sanaind {
    // public static Scanner lukija = new Scanner(System.in);
     public static ArrayList<String> lauseet = new ArrayList<String>();
     public static ArrayList<String> sanat = new ArrayList<String>();
-    public static Trie puu = new Trie();
+   
     public static  Scanner lukija = new Scanner(System.in);
-    
-      //root node
-    private Trie r;
+    public static Trie puu = new Trie();
+   
 
 
-    public boolean has(String word) {
-        return r.has(word);
-    }
 
-    public void insert(String word) {
-        r.insert(word);
-    }
     
     public static void lukukone() {
         try {
@@ -49,7 +42,8 @@ public class Sanaind {
                 lauseet.add(lukija.nextLine()); 
                 sanatOma();
             }*/
-            
+             puu = puu.createTree();
+             
             while (lukija.hasNextLine()) {
                 //lauseet.add(lukija.nextLine()); 
                 sanatOma();
@@ -80,9 +74,10 @@ public class Sanaind {
         }*/
     
         Tokennizer lause = new Tokennizer(lukija.nextLine()," ");
-        while (lause.lisaaTokeneita()) {
-            //System.out.println(trimmeri(lause.seuraava()));
-             puu.insert(trimmeri(lause.seuraava()));
+        
+        while (lause.lisaaTokeneita()) {            
+            puu.insertWord(puu, trimmeri(lause.seuraava()));  
+            
         }
         
     }
@@ -106,12 +101,31 @@ public class Sanaind {
         sana = sana.replace("?", "");
         sana = sana.replace("!", "");
         sana = sana.replace("'", "");
+        sana = sana.replace("﻿", "");
+        sana = sana.replace("-", "");
+        sana = sana.replace(".", "");
         
         sana= sana.toLowerCase();
         
         return sana;
     }
      
+    public static void etsija() {
+        
+        Scanner etsija = new Scanner(System.in);
+        String etsittava = etsija.nextLine();
+        
+        while (!etsittava.isEmpty()) {
+            if (puu.find(puu, etsittava)) {
+               System.out.println("Sana löytyi");
+           }
+           else {
+               System.out.println("Sanaa ei löytynyt");
+           }
+             etsittava = etsija.nextLine();   
+       }
+    }
+    /* Javan apuja käytetty 
     public static void etsija() {
                    
             Scanner etsija = new Scanner(System.in);
@@ -141,40 +155,24 @@ public class Sanaind {
             }
            
     }
-   
+   */
     
 
     
     public static void main(String[] args) {
         
-        System.out.println("Anna tutkittava teksti: ");
+        System.out.println("Luetaan tekstitiedosto: ");
         lukukone();
+        
+        /* Tallennetut sanat
+        char[] branch = new char[50];
+        puu.printTree(puu, 0, branch);
+        */
         
          System.out.println("Anna etsittävä sana: ");
         etsija();
         
-        /* Koitetaan ekana saada toimimaan muulla keinoin
-        TrieNode tree = puu.createTree();
-         int i=0;  
-         System.err.println("toimii");
-        while (i < sanat.size()){
-            puu.insertWord(tree, sanat.get(i));
-            i=i+1;
-        }
-       System.err.println("toimii1");
-        char[] branch = new char[50];
-        puu.printTree(tree, 0, branch);
-       System.err.println("toimii2");
-        String searchWord = "all";
-        if (puu.find(tree, searchWord))
-        {
-            System.out.println("The word was found");
-        }
-        else
-        {
-            System.out.println("The word was NOT found");
-        }
-    */
+       
         
     }
 }

@@ -36,6 +36,12 @@ public class SanaindTest {
      * Test of main method, of class Sanaind.
      */
     @Test
+    public void trimmeri() {
+        assertTrue(Sanaind.trimmeri("joulu!").equals("joulu"));
+    }
+
+    
+    @Test
     public void testMain() {
         System.out.println("main");
         String[] args = null;
